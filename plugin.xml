@@ -44,7 +44,7 @@
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
       <amazon:enable-feature android:name="com.amazon.device.messaging" android:required="false" xmlns:amazon="http://schemas.amazon.com/apk/res/android" />
       <service android:name="com.onesignal.ADMMessageHandler" android:exported="false" />
-      <receiver
+      <receiver android:exported="true" 
         android:name="com.onesignal.ADMMessageHandler$Receiver"
         android:permission="com.amazon.device.messaging.permission.SEND" >
         <intent-filter>
@@ -53,6 +53,49 @@
           <category android:name="$PACKAGE_NAME" />
         </intent-filter>
       </receiver>
+        <receiver android:exported="true" android:name="com.onesignal.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+    
+            <intent-filter android:exported="true" android:priority="999">
+            
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                
+                <category android:name="${applicationId}" />
+            
+            </intent-filter>
+        
+        </receiver>
+        
+        <receiver android:exported="true" android:name="com.onesignal.BootUpReceiver">
+        
+            <intent-filter android:exported="true">
+            
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            
+            </intent-filter>
+        
+        </receiver>
+        
+        <receiver android:exported="true" android:name="com.onesignal.UpgradeReceiver">
+        
+            <intent-filter android:exported="true">
+            
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            
+            </intent-filter>
+        
+        </receiver>
+        
+        <activity android:exported="true" android:name="com.onesignal.NotificationOpenedActivityHMS" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        
+            <intent-filter android:exported="true">
+            
+                <action android:name="android.intent.action.VIEW" />
+            
+            </intent-filter>
+        
+        </activity>
     </config-file>
 
     <source-file src="src/android/com/plugin/gcm/OneSignalPush.java" target-dir="src/com/plugin/gcm/" />
